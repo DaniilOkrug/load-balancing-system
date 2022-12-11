@@ -29,7 +29,7 @@ router.get("/getMetrics", async (req, res) => {
         }
     }
 
-    console.log(result[0].data);
+    // console.log(result[0].data);
 
     res.json(result);
 });

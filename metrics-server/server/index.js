@@ -32,7 +32,10 @@ const metrics_proto = grpc.loadPackageDefinition(packageDefinition);
     }
 
     const id = uuid.v4()
-    await redisClient.set(id, JSON.stringify(call.request));
+    await redisClient.set(id, JSON.stringify({
+      ...call.request,
+      timestamp: Number(call.request) * 1000
+    }));
     ids.push(id)
 
     console.log(call.getPeer())

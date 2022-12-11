@@ -5,7 +5,7 @@ import Accordions from "./components/Accordions";
 function App() {
   const [data, setData] = useState<any[]>([]);
   useEffect(() => {
-    fetch("http://localhost:8001/api/getMetrics").then((response) =>
+    fetch("http://194.87.82.50:80/api/getMetrics").then((response) =>
       response.json().then((newData) => {
         console.log(newData);
         setData(
@@ -25,7 +25,7 @@ function App() {
     );
 
     const timer = setInterval(() => {
-      fetch("http://localhost:8001/api/getMetrics").then((response) =>
+      fetch("http://194.87.82.50:80/api/getMetrics").then((response) =>
         response.json().then((newData) => {
           console.log(newData);
           setData(
