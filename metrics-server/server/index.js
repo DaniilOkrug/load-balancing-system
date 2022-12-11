@@ -28,13 +28,13 @@ const metrics_proto = grpc.loadPackageDefinition(packageDefinition);
   async function sendMetrics(call, callback) {
     console.log(call.request);
     if (!servers.includes(call.request.address)) {
-      servers.push(call.request.address)
+      servers.push(call.request.address)  
     }
 
     const id = uuid.v4()
     await redisClient.set(id, JSON.stringify({
       ...call.request,
-      timestamp: Number(call.request) * 1000
+      timestamp: Number(call.request)
     }));
     ids.push(id)
 
