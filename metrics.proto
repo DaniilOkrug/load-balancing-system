@@ -2,6 +2,7 @@ syntax = "proto3";
 
 service MetricsService {
     rpc sendMetrics(MetricsMessage) returns (Empty);
+    rpc getMetrics(Empty) returns (MetricsResponse);
 }
 
 message Empty {}
@@ -10,4 +11,8 @@ message MetricsMessage {
     float cpu = 2;
     float ram = 3;
     string address = 4;
+}
+
+message MetricsResponse {
+    repeated MetricsMessage metrics = 1;
 }

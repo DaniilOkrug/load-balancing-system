@@ -2,6 +2,9 @@ require("dotenv").config();
 const express = require("express");
 const app = express();
 const axios = require("axios");
+const router = require("./router/index");
+
+app.use("/api", router);
 
 const servers = ["http://localhost:3000", "http://localhost:3001"];
 
