@@ -51,6 +51,38 @@ class GrpcSerice {
             });
         })
     }
+
+    getServers() {
+        return new Promise((resolve) => {
+            var argv = parseArgs(process.argv.slice(2), {
+                string: 'target'
+            });
+
+            var target;
+            if (argv.target) {
+                target = argv.target;
+            } else {
+                target = 'localhost:5000';
+            }
+
+            var client = new this.#metrics_proto.MetricsService(target,
+                grpc.credentials.createInsecure());
+            var user;
+            if (argv._.length > 0) {
+                user = argv._[0];
+            } else {
+                user = 'world';
+            }
+
+            client.getServers({}, function (err, response) {
+                if (err) {
+                    console.log(err);
+                }
+
+                resolve(response.servers)
+            });
+        }, [])    
+    }
 }
 
 module.exports = new GrpcSerice()

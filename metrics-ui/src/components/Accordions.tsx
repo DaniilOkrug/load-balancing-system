@@ -64,37 +64,50 @@ interface AccordionsProps {
 const Accordions: FC<AccordionsProps> = ({ data }) => {
   return (
     <Accordion defaultActiveKey="0">
-      {data.map((item, index: number) => (
-        <Accordion.Item eventKey={`${index}`} key={`${index}`}>
-          <Accordion.Header>Server {item.address}</Accordion.Header>
-          <Accordion.Body>
-            <LineChart
-              width={500}
-              height={300}
-              data={item.data}
-              margin={{
-                top: 5,
-                right: 30,
-                left: 20,
-                bottom: 5,
-              }}
-            >
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="timestamp" />
-              <YAxis />
-              <Tooltip />
-              <Legend />
-              <Line
-                type="monotone"
-                dataKey="ram"
-                stroke="#8884d8"
-                activeDot={{ r: 8 }}
-              />
-              <Line type="monotone" dataKey="cpu" stroke="#82ca9d" />
-            </LineChart>
-          </Accordion.Body>
-        </Accordion.Item>
-      ))}
+      {data.map((item, index: number) => {
+        const currentCPU = item.data[item.data.length - 1].cpu.toFixed(2);
+        const currentRAM = item.data[item.data.length - 1].ram.toFixed(2);
+        return (
+          <Accordion.Item eventKey={`${index}`} key={`${index}`}>
+            <Accordion.Header>
+              <div className="metrics-header">
+                <p>Server {item.address}</p>
+                <p>
+                  <b>
+                    Current load: CPU: {currentCPU}% RAM: {currentRAM}%
+                  </b>
+                </p>
+              </div>
+            </Accordion.Header>
+            <Accordion.Body className="metrics">
+              <LineChart
+                width={700}
+                height={300}
+                data={item.data}
+                margin={{
+                  top: 5,
+                  right: 30,
+                  left: 20,
+                  bottom: 5,
+                }}
+              >
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="timestamp" />
+                <YAxis />
+                <Tooltip />
+                <Legend />
+                <Line
+                  type="monotone"
+                  dataKey="ram"
+                  stroke="#8884d8"
+                  activeDot={{ r: 8 }}
+                />
+                <Line type="monotone" dataKey="cpu" stroke="#82ca9d" />
+              </LineChart>
+            </Accordion.Body>
+          </Accordion.Item>
+        );
+      })}
     </Accordion>
   );
 };

@@ -3,28 +3,51 @@ import "./App.css";
 import Accordions from "./components/Accordions";
 
 function App() {
-  const [data, setData] = useState<any[]>([
-    {
-      address: "127.0.0.0",
-      data: [
-        {
-          cpu: 12,
-          ram: 32,
-          timestamp: 1670716564209,
-        },
-        {
-          cpu: 52,
-          ram: 42,
-          timestamp: 1670716564229,
-        },
-      ],
-    },
-  ]);
-
+  const [data, setData] = useState<any[]>([]);
   useEffect(() => {
     fetch("http://localhost:8001/api/getMetrics").then((response) =>
-      console.log(response.json())
+      response.json().then((newData) => {
+        console.log(newData);
+        setData(
+          newData.map((server: any) => {
+            return {
+              address: server.address,
+              data: server.data.map((serverData: any) => {
+                return {
+                  ...serverData,
+                  timestamp: new Date(Number(serverData.timestamp)).toLocaleTimeString(),
+                };
+              }),
+            };
+          })
+        );
+      })
     );
+
+    const timer = setInterval(() => {
+      fetch("http://localhost:8001/api/getMetrics").then((response) =>
+        response.json().then((newData) => {
+          console.log(newData);
+          setData(
+            newData.map((server: any) => {
+              return {
+                address: server.address,
+                data: server.data.map((serverData: any) => {
+                  return {
+                    ...serverData,
+                    timestamp: new Date(Number(serverData.timestamp)).toLocaleTimeString(),
+                  };
+                }),
+              };
+            })
+          );
+        })
+      );
+    }, 60000);
+
+    return () => {
+      clearInterval(timer);
+    };
   }, []);
 
   return (
