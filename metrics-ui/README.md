@@ -1,3 +1,9 @@
+# UI for load-balancing servcie
+
+You should install dependecies before running and biulding app
+
+<code>npm i</code>
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).

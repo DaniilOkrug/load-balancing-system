@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+service MetricsService {
+    rpc sendMetrics(MetricsMessage) returns (Empty);
+}
+
+message Empty {}
+message MetricsMessage {
+    int64 timestamp = 1;
+    float cpu = 2;
+    float ram = 3;
+    string address = 4;
+}
